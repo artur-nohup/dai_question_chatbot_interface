@@ -17,6 +17,26 @@ export const PLACEHOLDER_INPUT = "Ask anything...";
 
 export const GREETING = "Let's get you ready for the DAI exam";
 
+const parseEnvNumber = (value: string | undefined, fallback: number): number => {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+};
+
+export const PEEK_MIN_DELAY_MS = parseEnvNumber(
+  process.env.NEXT_PUBLIC_PEEK_MIN_DELAY_MS,
+  30_000
+);
+
+export const PEEK_MAX_DELAY_MS = parseEnvNumber(
+  process.env.NEXT_PUBLIC_PEEK_MAX_DELAY_MS,
+  120_000
+);
+
+export const PEEK_DURATION_MS = parseEnvNumber(
+  process.env.NEXT_PUBLIC_PEEK_DURATION_MS,
+  2_500
+);
+
 export const getThemeConfig = (theme: ColorScheme): ThemeOption => ({
   color: {
     grayscale: {

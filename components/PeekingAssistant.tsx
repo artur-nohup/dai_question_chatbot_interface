@@ -2,18 +2,25 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import {
+  PEEK_DURATION_MS,
+  PEEK_MAX_DELAY_MS,
+  PEEK_MIN_DELAY_MS,
+} from "@/lib/config";
 
-const MIN_DELAY_MS = 30_000;
-const MAX_DELAY_MS = 120_000;
-const PEEK_DURATION_MS = 2_500;
-
-const getRandomDelay = () =>
-  Math.floor(Math.random() * (MAX_DELAY_MS - MIN_DELAY_MS)) + MIN_DELAY_MS;
+const getRandomDelay = () => {
+  const min = Math.min(PEEK_MIN_DELAY_MS, PEEK_MAX_DELAY_MS);
+  const max = Math.max(PEEK_MIN_DELAY_MS, PEEK_MAX_DELAY_MS);
+  if (min === max) {
+    return min;
+  }
+  return Math.floor(Math.random() * (max - min)) + min;
+};
 
 export function PeekingAssistant() {
   const [isVisible, setIsVisible] = useState(false);
-  const peekTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const peekTimeoutRef = useRef<number | null>(null);
+  const hideTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     let isMounted = true;
